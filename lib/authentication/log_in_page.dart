@@ -36,6 +36,7 @@ class _LogInPageState extends State<LogInPage> {
             ),
       );
     }
+    Navigator.pop(context);
   }
 
   @override
