@@ -70,7 +70,6 @@ class DrawerComponent extends StatelessWidget {
               leading: Icon(Icons.logout),
               title: Text('L O G  O U T'),
               onTap: () {
-                Navigator.pop(context);
                 logout();
               },
             ),
