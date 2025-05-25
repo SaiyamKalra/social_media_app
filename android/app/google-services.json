@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "34882068388",
+    "project_id": "socialmediaapp-fc360",
+    "storage_bucket": "socialmediaapp-fc360.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34882068388:android:e410d0e2af6e0447d0ab31",
+        "android_client_info": {
+          "package_name": "com.example.social_media_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyskj7erNjn5EhN0w1QZj9UOvd1enD23U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
