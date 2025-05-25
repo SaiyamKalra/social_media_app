@@ -1,13 +1,59 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  final void Function()? onTap;
+
+  const RegisterPage({super.key, required this.onTap});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController usernameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController confirmPasswordCOntroller =
       TextEditingController();
-  final void Function()? onTap;
-  RegisterPage({super.key, required this.onTap});
+
+  void registerUser() async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    if (passwordController.text != confirmPasswordCOntroller.text) {
+      Navigator.pop(context);
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(title: Text("Different Passwords")),
+      );
+    } else {
+      try {
+        UserCredential? userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim(),
+            );
+        Navigator.pop(context);
+      } on FirebaseAuthException catch (e) {
+        Navigator.pop(context);
+        showDialog(
+          context: context,
+          builder:
+              (context) => AlertDialog(
+                title: Text('Registeration Failed'),
+                content: Text(e.toString()),
+              ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +135,9 @@ class RegisterPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    registerUser();
+                  },
                   child: Text(
                     'Sign Up',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -107,7 +155,7 @@ class RegisterPage extends StatelessWidget {
                 Text("Already have a Account?"),
                 SizedBox(width: 5),
                 GestureDetector(
-                  onTap: onTap,
+                  onTap: widget.onTap,
                   child: Text(
                     "Sign In Now",
                     style: TextStyle(fontWeight: FontWeight.bold),

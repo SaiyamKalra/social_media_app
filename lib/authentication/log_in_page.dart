@@ -1,10 +1,42 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LogInPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class LogInPage extends StatefulWidget {
   final void Function()? onTap;
-  LogInPage({super.key, required this.onTap});
+  const LogInPage({super.key, required this.onTap});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  void userSignIn() async {
+    showDialog(
+      context: context,
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text('Sign In Failed'),
+              content: Text(e.toString()),
+            ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +91,9 @@ class LogInPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    userSignIn();
+                  },
                   child: Text(
                     'Sign In',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -77,7 +111,7 @@ class LogInPage extends StatelessWidget {
                 Text("Don't have a account?"),
                 SizedBox(width: 5),
                 GestureDetector(
-                  onTap: onTap,
+                  onTap: widget.onTap,
                   child: Text(
                     "Register Now",
                     style: TextStyle(fontWeight: FontWeight.bold),
