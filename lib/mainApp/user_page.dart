@@ -5,6 +5,11 @@ class UsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Users')));
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text('Users')),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+    );
   }
 }
